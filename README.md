@@ -1,4 +1,4 @@
-# gestiune_magazin
+# Baza de date gestiune
 
 Acest proiect are ca scop gestionarea activitatii unui magazin care se ocupa cu 
 comercializarea jocurilor de societate. Proiectul tine evidenta managementului intern al
