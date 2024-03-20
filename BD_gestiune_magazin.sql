@@ -1,18 +1,39 @@
+
+DROP SEQUENCE seq_functii;
+DROP SEQUENCE seq_angajati;
+DROP SEQUENCE seq_clienti;
+DROP SEQUENCE seq_produse;
+DROP SEQUENCE seq_furnizori;
+DROP SEQUENCE seq_stoc;
+DROP SEQUENCE seq_comenzi;
+
+DROP TABLE FUNCTII CASCADE CONSTRAINTS;
+DROP TABLE ANGAJATI CASCADE CONSTRAINTS;
+DROP TABLE CLIENTI CASCADE CONSTRAINTS;
+DROP TABLE PRODUSE CASCADE CONSTRAINTS;
+DROP TABLE FURNIZORI CASCADE CONSTRAINTS;
+DROP TABLE STOC CASCADE CONSTRAINTS;
+DROP TABLE COMENZI CASCADE CONSTRAINTS;
+
+
+
 CREATE SEQUENCE seq_functii
 MINVALUE 1
 START WITH 100
 INCREMENT BY 1
 CACHE 20;
+
 create table Functii(
 id_functie number(4) constraint pk_functie primary key,
 Denumire_functie varchar2(30) not null
-);
+); 
 
 CREATE SEQUENCE seq_angajati
 MINVALUE 1
 START WITH 200
 INCREMENT BY 1
 CACHE 20;
+
 create table Angajati(
 id_angajat number(4) constraint pk_angajat primary key, 
 Nume varchar2(20) not null,
@@ -23,17 +44,16 @@ Salariu number(4),
 id_functie number(4)
 );
 alter table Angajati
-add id_functie number(4);
-alter table Angajati
 add constraint id_functie_pk foreign key (id_functie) references Functii(id_functie); 
 alter table Angajati
-add id_manager number(4);
+add id_manager number(4); 
 
 CREATE SEQUENCE seq_clienti
 MINVALUE 1
 START WITH 300
 INCREMENT BY 1
 CACHE 20;
+
 create table Clienti(
 id_client number(4) constraint pk_client primary key,
 Nume_client varchar2(20),
@@ -47,6 +67,7 @@ MINVALUE 1
 START WITH 400
 INCREMENT BY 1
 CACHE 20;
+
 create table Produse(
 id_produs number(4) constraint pk_produs primary key,
 Denumire_produs varchar2(50),
@@ -54,13 +75,14 @@ Categorie varchar2(20),
 Pret number(4,2)
 );
 alter table Produse
-modify (pret number (6,2));
+modify (pret number (6,2)); 
 
 CREATE SEQUENCE seq_furnizori
 MINVALUE 1
 START WITH 500
 INCREMENT BY 1
 CACHE 20;
+
 create table Furnizori(
 id_furnizor number(4) constraint pk_furnizor primary key,
 Denumire_furnizor varchar2(20),
@@ -68,11 +90,13 @@ Localitate varchar2(15),
 Cantitate_comandata number(4)
 );
 
+
 CREATE SEQUENCE seq_stoc
 MINVALUE 1
 START WITH 600
 INCREMENT BY 1
 CACHE 20;
+
 create table Stoc(
 id_stoc number(4) constraint pk_stoc primary key,
 Cantitate number(4),
@@ -82,13 +106,14 @@ id_furnizor number(4)
 alter table Stoc
 add constraint id_produs_fk foreign key(id_produs) references Produse(id_produs);
 alter table Stoc 
-add constraint id_furnizor_fk foreign key(id_furnizor) references Furnizori(id_furnizor);
+add constraint id_furnizor_fk foreign key(id_furnizor) references Furnizori(id_furnizor); 
 
 CREATE SEQUENCE seq_comenzi
 MINVALUE 1
 START WITH 700
 INCREMENT BY 1
 CACHE 20;
+
 create table Comenzi(
 id_comanda number(3) constraint pk_comanda primary key,
 id_produs number(4),
@@ -105,6 +130,10 @@ alter table Comenzi
 add constraint fk_client foreign key(id_client) references Clienti(id_client);
 alter table Comenzi
 add constraint fk_produs foreign key(id_produs) references Produse(id_produs); 
+
+
+
+
 
 insert into Functii(id_functie,denumire_functie)
 values(seq_functii.nextval,'Administrator');
@@ -126,6 +155,7 @@ insert into Functii(id_functie,denumire_functie)
 values(seq_functii.nextval,'Ingrijitoare');
 insert into Functii(id_functie,denumire_functie)
 values(seq_functii.nextval,'Paznic');
+
 
 insert into Angajati(id_angajat, nume, prenume, telefon, data_angajare, salariu, id_functie)
 values(seq_angajati.nextval,'Bolo?escu','Andreea','0722687569','05.April.2020','9000','100');
@@ -154,17 +184,18 @@ values(seq_angajati.nextval,'Vasile','Ionut','0734931856','25.February.2018','50
 insert into Angajati(id_angajat, nume, prenume, telefon, data_angajare, salariu, id_functie)
 values(seq_angajati.nextval,'Mircea','Alexandru','0731652489','20.October.2017','3300','108');
 insert into Angajati(id_angajat, nume, prenume, telefon, data_angajare, salariu, id_functie)
-values(seq_angajati.extval,'Boncu','Ramona','07316425720','15.October.2019','3300','108');
+values(seq_angajati.nextval,'Boncu','Ramona','07316425720','15.October.2019','3300','108');
 insert into Angajati(id_angajat, nume, prenume, telefon, data_angajare, salariu, id_functie)
 values(seq_angajati.nextval,'Teraru','Gheorghe','0731265473','13.July.2022','4000','109');
 update Angajati
-set id_manager = 1 where id_functie in (104,101,102);
+set id_manager = 1  where id_functie in (104,101,102);
 update Angajati
-set id_manager = 2 where id_angajat = 205;
+set id_manager = 2  where id_angajat = 205;
 update Angajati
-set id_manager = 3 where id_angajat in (206,208,210,212,214);
+set id_manager = 3  where id_angajat in (206,208,210,212,214);
 update Angajati
-set id_manager = 4 where id_angajat in (207,209,211,213); 
+set id_manager = 4  where id_angajat in (207,209,211,213); 
+
 
 insert into Clienti(id_client,nume_client,prenume_client,telefon,adresa)
 values(seq_clienti.nextval,'Ion','Andrei','0746537896','Strada Mircea Eliade nr 3 ');
@@ -186,6 +217,8 @@ insert into Clienti(id_client,nume_client,prenume_client,telefon,adresa)
 values(seq_clienti.nextval,'Ionescu','Mihai','0745689731','Strada Revolutiei ');
 insert into Clienti(id_client,nume_client,prenume_client,telefon,adresa)
 values(seq_clienti.nextval,'Pampurea','Roxana','0732196705','Strada Curmita nr 10 ');
+
+
 
 insert into Produse(id_produs, Denumire_produs, Categorie, Pret)
 values(seq_produse.nextval, 'Pandemic Iberia', 'strategie', '309');
@@ -218,6 +251,7 @@ values(seq_produse.nextval, 'Lord of the Rings The Card Game The Two Towers ', '
 insert into Produse(id_produs, denumire_produs, categorie, pret)
 values(seq_produse.nextval, 'Game of Thrones Tarot', 'joc de carti', '109'); 
 
+
 insert into Furnizori(id_furnizor,denumire_furnizor,localitate,cantitate_comandata)
 values(seq_furnizori.nextval,'Intscope Distrib','Oradea','10');
 insert into Furnizori(id_furnizor,denumire_furnizor,localitate,cantitate_comandata)
@@ -238,6 +272,7 @@ insert into Furnizori(id_furnizor,denumire_furnizor,localitate,cantitate_comanda
 values(seq_furnizori.nextval,'Far & far','Arad','7');
 insert into Furnizori(id_furnizor,denumire_furnizor,localitate,cantitate_comandata)
 values(seq_furnizori.nextval,'Space ginos','Sibiu','3'); 
+
 
 insert into Stoc(id_stoc,cantitate,id_produs,id_furnizor)
 values(seq_stoc.nextval,'50','415','509');
@@ -268,51 +303,38 @@ values(seq_stoc.nextval,'30','412','504');
 insert into Stoc(id_stoc,cantitate,id_produs,id_furnizor)
 values(seq_stoc.nextval,'36','413','502');
 insert into Stoc(id_stoc,cantitate,id_produs,id_furnizor)
-values(seq_stoc.nextval,'14','414','503');
+values(seq_stoc.nextval,'14','414','503'); 
 
-insert into 
-Comenzi(id_comanda,id_produs,data_comanda,id_client,mod_plata,stare_comanda,id_angajat)
-values(seq_comenzi.nextval,'408','04.October.2023','301','Cash','Finalizata','207');
-insert into 
-Comenzi(id_comanda,id_produs,data_comanda,id_client,mod_plata,stare_comanda,id_angajat)
-values(seq_comenzi.nextval,'406','05.October.2023','302','Cash','Finalizata','208');
-insert into 
-Comenzi(id_comanda,id_produs,data_comanda,id_client,mod_plata,stare_comanda,id_angajat)
-values(seq_comenzi.nextval,'412','09.November.2023','303','Plata online','Finalizata','210');
-insert into 
-Comenzi(id_comanda,id_produs,data_comanda,id_client,mod_plata,stare_comanda,id_angajat)
-values(seq_comenzi.nextval,'414','15.November.2023','304','Cash','Finalizata','209');
-insert into 
-Comenzi(id_comanda,id_produs,data_comanda,id_client,mod_plata,stare_comanda,id_angajat)
-values(seq_comenzi.nextval,'401','16.November.2023','305','Cash','Finalizata','210');
-insert into 
-Comenzi(id_comanda,id_produs,data_comanda,id_client,mod_plata,stare_comanda,id_angajat)
-values(seq_comenzi.nextval,'403','19.November.2023','306','Plata online','Finalizata','210');
-insert into 
-Comenzi(id_comanda,id_produs,data_comanda,id_client,mod_plata,stare_comanda,id_angajat)
-values(seq_comenzi.nextval,'411','25.November.2023','307','Plata online','Finalizata','208');
-insert into 
-Comenzi(id_comanda,id_produs,data_comanda,id_client,mod_plata,stare_comanda,id_angajat)
-values(seq_comenzi.nextval,'401','30.November.2023','308','Plata online','Finalizata','209');
-insert into 
-Comenzi(id_comanda,id_produs,data_comanda,id_client,mod_plata,stare_comanda,id_angajat)
-values(seq_comenzi.nextval,'405','12.December.2023','309','Cash','Finalizata','209');
-insert into 
-Comenzi(id_comanda,id_produs,data_comanda,id_client,mod_plata,stare_comanda,id_angajat)
-values(seq_comenzi.nextval,'410','15.December.2023','310','Plata online','Finalizata','208');
-insert into 
-Comenzi(id_comanda,id_produs,data_comanda,id_client,mod_plata,stare_comanda,id_angajat)
-values(seq_comenzi.nextval,'408','23.December.2023','302','Cash','Finalizata','208');
-insert into 
-Comenzi(id_comanda,id_produs,data_comanda,id_client,mod_plata,stare_comanda,id_angajat)
-values(seq_comenzi.nextval,'413','26.December.2023','303','Plata online','In curs','207');
-insert into 
-Comenzi(id_comanda,id_produs,data_comanda,id_client,mod_plata,stare_comanda,id_angajat)
-values(seq_comenzi.nextval,'401','31.December.2023','302','Cash','In curs','209');
-insert into 
-Comenzi(id_comanda,id_produs,data_comanda,id_client,mod_plata,stare_comanda,id_angajat)
-values(seq_comenzi.nextval,'407','2.January.2023','309','Plata online','In curs','207');
-insert into 
-Comenzi(id_comanda,id_produs,data_comanda,id_client,mod_plata,stare_comanda,id_angajat)
-values(seq_comenzi.nextval,'402','6.January.2023','305','Cash','In curs','208');
+
+insert into Comenzi(id_comanda,id_produs,data_comanda,id_client,mod_plata,stare_comanda)
+values('600','408','04.October.2023','301','Cash','Finalizata');
+insert into Comenzi(id_comanda,id_produs,data_comanda,id_client,mod_plata,stare_comanda)
+values('601','406','05.October.2023','302','Cash','Finalizata');
+insert into Comenzi(id_comanda,id_produs,data_comanda,id_client,mod_plata,stare_comanda)
+values('602','412','09.November.2023','303','Plata online','Finalizata');
+insert into Comenzi(id_comanda,id_produs,data_comanda,id_client,mod_plata,stare_comanda)
+values('603','414','15.November.2023','304','Cash','Finalizata');
+insert into Comenzi(id_comanda,id_produs,data_comanda,id_client,mod_plata,stare_comanda)
+values('604','400','16.November.2023','305','Cash','Finalizata');
+insert into Comenzi(id_comanda,id_produs,data_comanda,id_client,mod_plata,stare_comanda)
+values('605','403','19.November.2023','306','Plata online','Finalizata');
+insert into Comenzi(id_comanda,id_produs,data_comanda,id_client,mod_plata,stare_comanda)
+values('606','411','25.November.2023','307','Plata online','Finalizata');
+insert into Comenzi(id_comanda,id_produs,data_comanda,id_client,mod_plata,stare_comanda)
+values('607','401','30.November.2023','308','Plata online','Finalizata');
+insert into Comenzi(id_comanda,id_produs,data_comanda,id_client,mod_plata,stare_comanda)
+values('608','405','12.December.2023','309','Cash','Finalizata');
+insert into Comenzi(id_comanda,id_produs,data_comanda,id_client,mod_plata,stare_comanda)
+values('609','410','15.December.2023','300','Plata online','Finalizata');
+insert into Comenzi(id_comanda,id_produs,data_comanda,id_client,mod_plata,stare_comanda)
+values('610','408','23.December.2023','302','Cash','Finalizata');
+insert into Comenzi(id_comanda,id_produs,data_comanda,id_client,mod_plata,stare_comanda)
+values('611','413','26.December.2023','303','Plata online','In curs');
+insert into Comenzi(id_comanda,id_produs,data_comanda,id_client,mod_plata,stare_comanda)
+values('612','400','31.December.2023','302','Cash','In curs');
+insert into Comenzi(id_comanda,id_produs,data_comanda,id_client,mod_plata,stare_comanda)
+values('613','407','2.January.2023','309','Plata online','In curs');
+insert into Comenzi(id_comanda,id_produs,data_comanda,id_client,mod_plata,stare_comanda)
+values('614','402','6.January.2023','305','Cash','In curs');
+
 
